@@ -6,13 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="WELCOME!"> <!-- Welcome message-->
 
+    <!-- TITLE OF CHAT BOT  -->
+    <title>CHAT BOT</title>
 
-    <title>CHATTER BOT</title>
+    <!-- Load avatar of human user -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/Logo_HCMUS.png') }}"> 
+
+    <!-- Load universal stylesheet for site -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
 
+<!-- MAIN PART OF THE FILE BEGINS HERE -->
+
+<body>
+    <!-- HEADER OF THE WEB -->
     <header>
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -30,10 +37,14 @@
     </header>
 
     <!-- Begin page content -->
-    <main class="flex-shrink-0">
+
+    <!-- flex-shrink 0: có khả năng tràn chữ ra khỏi khung -->
+    <main class="flex-shrink-0"> 
         <div class="container">
             <br>
             <br>
+
+            <!-- Tiêu đề -->
             <h1 class="mt-5">Get Started with ChatGPT API from OpenAI</h1>
             <p class="lead">
                 This project is created for educational purposes and demonstrates the use of ChatGPT API from OpenAI.
@@ -41,8 +52,8 @@
 
             <div id="list-group" class="list-group w-auto">
                 <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
-                    <img src="{{ url_for('static', filename='openai.jpg') }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-                    <div class="d-flex gap-2 w-100 justify-content-between">
+                    <img src="{{ url_for('static', filename='images/openai.jpg') }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                    <div class="d-flex gap-2 w-100 justify-content-start">
                         <div>
                             <p class="mb-0 opacity-75">Hello! My name is Tofu - your helpful assistant, how can I help you today ?</p>
                         </div>
@@ -62,8 +73,11 @@
     </main>
 
 
+    <!-- Import jquery library, which supports event handling and web applications  -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
 
     <script>
 
@@ -77,18 +91,20 @@
             html_data += `
             <a href = "#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
               <img src = "{{ url_for('static', filename='Logo_HCMUS.png') }}" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
-                 <div class="d-flex gap-2 w-100 justify-content-between">
+                 <div class="d-flex gap-2 w-100 justify-content-end">
                      <div>
                          <p class="mb-0 opacity-75">${question}</p>
                      </div>
                  </div>
               </a>
             `;
+            //Clear the  input box 
             $("#chat-input").val('');
+            //Append prompt text to history
             $("#list-group").append(html_data);
 
             $.ajax({
-                type = "POST",
+                type: "POST",
                 url: "/",
                 data: {'prompt': question },
                 success: function (data) {
@@ -98,7 +114,7 @@
                         <img src = "{{ url_for('static', filename='openai.jpg') }}" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
                         <div class="d-flex gap-2 w-100 justify-content-between">
                             <div>
-                             <p class="mb-0 opacity-75"> ${data.answer} </p>
+                             <p class="mb-0 opacity-75"> "I dont understand u" </p>
                             </div>
                         </div>
                     </a>
