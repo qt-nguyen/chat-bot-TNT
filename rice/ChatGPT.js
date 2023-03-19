@@ -1,182 +1,273 @@
-﻿var OPENAI_API_KEY = "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";
-var bTextToSpeechSupported = false;
-var bSpeechInProgress = false;
-var oSpeechRecognizer = null
-var oSpeechSynthesisUtterance = null;
-var oVoices = null;
+﻿var OPENAI_API_KEY = "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";
+var text_to_speech_is_supported = false;
+var speech_is_in_progress = false;
+var speech_recognizer = null
+var speech_utterance = null;
+var voice_input = null;
 
+
+// Được gọi ngay khi trang web được tải 
 function OnLoad() {
-    if ("webkitSpeechRecognition" in window) {
-    } else {
+    // Kiểm tra trình duyệt có hỗ trợ nhận dạng giọng nói không
+    if ("webkitSpeechRecognition" in window) 
+    {
+    } 
+    else 
+    {
         //speech to text not supported
         lblSpeak.style.display = "none";
     }
 
-    if ('speechSynthesis' in window) {
-        bTextToSpeechSupported = true;
-
+    // Kiểm tra trình duyệt có hỗ trợ chuyển đổi văn bản thành giọng nói không
+    if ('speechSynthesis' in window) 
+    {
+        text_to_speech_is_supported = true;
         speechSynthesis.onvoiceschanged = function () {
-            oVoices = window.speechSynthesis.getVoices();
-            for (var i = 0; i < oVoices.length; i++) {
-                selVoices[selVoices.length] = new Option(oVoices[i].name, i);
+            // Thay đổi giọng nói theo tùy chỉnh của người dùng
+            voice_input = window.speechSynthesis.getVoices();
+            for (var i = 0; i < voice_input.length; i++) 
+            {
+                selVoices[selVoices.length] = new Option(voice_input[i].name, i);
             }
         };
     }
 }
 
+// Thay đổi ngôn ngữ của âm thanh đầu vào
 function ChangeLang(o) {
-    if (oSpeechRecognizer) {
-        oSpeechRecognizer.lang = selLang.value;
+    if (speech_recognizer) {
+        speech_recognizer.lang = selLang.value;
         //SpeechToText()
     }
 }
 
-function Send() {
 
-    var sQuestion = txtMsg.value;
-    if (sQuestion == "") {
+// Biến lưu lịch sử để truyền tiếp
+const conversation_history = []
+
+
+// Hàm Send là back-end
+function Send() {
+    // str_input: input text đơn thuần
+    // txtMsg: đối tượng input
+    var str_input = txtMsg.value; 
+    if (str_input == "") { // Báo lỗi và thoát khỏi chương trình nếu prompt rỗng
         alert("Type in your question!");
-        txtMsg.focus();
+        txtMsg.focus(); // Đặt con trỏ soạn thảo vào hộp nhập
         return;
     }
 
-    var oHttp = new XMLHttpRequest();
-    oHttp.open("POST", "https://api.openai.com/v1/completions");
-    oHttp.setRequestHeader("Accept", "application/json");
-    oHttp.setRequestHeader("Content-Type", "application/json");
-    oHttp.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+    // Gửi yêu cầu dữ liệu đến máy chủ
+    var oHttp = new XMLHttpRequest(); 
 
+    oHttp.open("POST", "https://api.openai.com/v1/chat/completions"); // Máy chủ để gửi yêu cầu POST
+
+    // Header của yêu cầu
+    oHttp.setRequestHeader("Accept", "application/json"); // Yêu cầu đầu vào chỉ chấp nhận môi trường javascrpt
+    oHttp.setRequestHeader("Content-Type", "application/json"); // Kết quả đầu vào tuân theo  cú pháp javascript
+    oHttp.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY) // Xác thực truy cập, sử dụng API của OpenAI
+
+    conversation_history[conversation_history.length] = {"role": "user", "content": str_input};
+    // Dữ liệu trong yêu cầu được gửi lên máy chủ
+    var data = {
+        "model": "gpt-3.5-turbo", // Model GPT-3.5-turbo, model hiện hành của ChatGPT
+        "messages": conversation_history, // Thông điệp để gọi API phản hồi
+    }
+
+    // Truyền thông điệp của người dùng vào stream xuất 
+    txtOutput.value += "Me: " + str_input + "<br>"
+
+
+
+    // Định nghĩa hành vi xảy ra nếu trạng thái của biến oHttp thay đổi (đồng nghĩa với việc đã nhận dữ liệu từ máy chủ)
+    // (chưa biết là dữ liệu đúng hay không)
+
+    // Thực thi khối lệnh sau khi trạng thái oHttp thay đổi:
     oHttp.onreadystatechange = function () {
+        
+        // XMLHttpRequest.readyState cho biết trạng thái  yêu cầu đã gửi từ máy khách.
+        // Giá trị 0 (chưa tiến hành) -> 4 (đã hoàn thành) biểu thị mức độ hoàn thành của yêu cầu. 
         if (oHttp.readyState === 4) {
-            //console.log(oHttp.status);
-            var oJson = {}
+            var oJson = {} // oJson lưu dữ liệu được máy chủ gửi về
+
+            // Nếu stream output rỗng, thêm ký tự xuống dòng vào stream.
             if (txtOutput.value != "") txtOutput.value += "\n";
 
-            try {
+            // Test dòng lệnh sau và trả về thông báo lỗi (nếu có)
+            try 
+            {
+                // Lưu oHttp.responseText (dữ liệu được máy chủ trả về) vào biến oJson
                 oJson = JSON.parse(oHttp.responseText);
-            } catch (ex) {
-                txtOutput.value += "Error: " + ex.message
+            } 
+            catch (ex) // Nếu quá trình parse không thành công: 
+            { 
+                // Biến ex tạm thời lưu thông báo lỗi
+                txtOutput.value += "Error: " + ex.message // Lưu thông báo lỗi vào stream output.
             }
 
-            if (oJson.error && oJson.error.message) {
-                txtOutput.value += "Error: " + oJson.error.message;
-            } else if (oJson.choices && oJson.choices[0].text) {
-                var s = oJson.choices[0].text;
+            if (oJson.error && oJson.error.message) // Nếu có lỗi xảy ra
+            { 
+                txtOutput.value += "Error: " + oJson.error.message + "ERR2"; // Lưu thông điệp lỗi vào kết quả đầu ra
+            } 
+            else  // Không có lỗi, quá trình parse thành công
+            if (oJson.choices && oJson.choices[0].message.content) 
+            { 
+                // s lưu kết quả dưới dạng văn bản thô 
+                var s = oJson.choices[0].message.content 
+                
+                // Nếu kết quả văn bản là rỗng, thông báo
+                if (s == "") 
+                    s = "No response";
 
-                if (selLang.value != "en-US") {
-                    var a = s.split("?\n");
-                    if (a.length == 2) {
-                        s = a[1];
-                    }
-                }
-
-                if (s == "") s = "No response";
+                // Truyền kết quả văn bản vào stream đầu ra
                 txtOutput.value += "Chat GPT: " + s;
+                
+                // Lưu kết quả vào lịch sử
+                conversation_history[conversation_history.length] = {"role": "assistant", "content": s};
+                // Nói
                 TextToSpeech(s);
             }            
         }
     };
 
-    var sModel = selModel.value;// "text-davinci-003";
-    var iMaxTokens = 2048;
-    var sUserId = "1";
-    var dTemperature = 0.5;    
 
-    var data = {
-        model: sModel,
-        prompt: sQuestion,
-        max_tokens: iMaxTokens,
-        user: sUserId,
-        temperature:  dTemperature,
-        frequency_penalty: 0.0, //Number between -2.0 and 2.0  Positive value decrease the model's likelihood to repeat the same line verbatim.
-        presence_penalty: 0.0,  //Number between -2.0 and 2.0. Positive values increase the model's likelihood to talk about new topics.
-        stop: ["#", ";"] //Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
-    }
-
+    // Chuyển data thành dạng văn bản và gửi yêu cầu đi
     oHttp.send(JSON.stringify(data));
 
-    if (txtOutput.value != "") txtOutput.value += "\n";
-    txtOutput.value += "Me: " + sQuestion;
-    txtMsg.value = "";
+    // Nếu stream xuất có dữ liệu, thêm ký tự xuống dòng vào stream
+    if (txtOutput.value != "") 
+        txtOutput.value += "\n"
+
+    
+    
+    // Dọn dẹp prompt đầu vào
+    txtMsg.value = ""; 
 }
 
+
+
+
+
+
+// Phương thức chuyển đổi thông điệp văn bản thành giọng nói
 function TextToSpeech(s) {
-    if (bTextToSpeechSupported == false) return;
+    // Nếu không có hỗ trợ giọng nói, thoát.
+    if (text_to_speech_is_supported == false) 
+        return;
+    
+    // Nếu âm thanh đầu ra bị tắt, thoát.
     if (chkMute.checked) return;
 
-    oSpeechSynthesisUtterance = new SpeechSynthesisUtterance();
+    // Tạo đối tượng của Web Speech API để tiến hành gửi & nhận yêu cầu chuyển đổi giọng nói <---> văn bản  
+    speech_utterance = new SpeechSynthesisUtterance();
 
-    if (oVoices) {
-        var sVoice = selVoices.value;
-        if (sVoice != "") {
-            oSpeechSynthesisUtterance.voice = oVoices[parseInt(sVoice)];
+    // Đối tượng voice_input lưu trữ âm thanh đầu vào (được người dùng nhập từ microphone)
+    if (voice_input) 
+    { 
+        // Nếu có âm thanh đầu vào được lưu bởi đối tượng selVoice, lưu âm thanh vào biến sVoice
+        var sVoice = selVoices.value;  
+        if (sVoice != "") // Nếu có âm thanh, lấy giọng tương ứng để truyền vào biến phản hồi
+        {
+            speech_utterance.voice = voice_input[parseInt(sVoice)];
         }        
     }    
 
-    oSpeechSynthesisUtterance.onend = function () {
-        //finished talking - can now listen
-        if (oSpeechRecognizer && chkSpeak.checked) {
-            oSpeechRecognizer.start();
+
+    // Định nghĩa hành động sẽ thực thi khi máy đã nói xong
+    speech_utterance.onend = function () {
+        // Nếu có âm thanh đầu vào từ người dùng, bắt đầu thu âm
+        if (speech_recognizer && chkSpeak.checked) {
+            speech_recognizer.start();
         }
     }
 
-    if (oSpeechRecognizer && chkSpeak.checked) {
-        //do not listen to yourself when talking
-        oSpeechRecognizer.stop();
+    // Nếu máy đang nói mà mic đang mở
+    if (speech_recognizer && chkSpeak.checked) {
+        // Không thu âm
+        speech_recognizer.stop();
     }
 
-    oSpeechSynthesisUtterance.lang = selLang.value;
-    oSpeechSynthesisUtterance.text = s;
-    //Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed 
-    window.speechSynthesis.speak(oSpeechSynthesisUtterance);
+    // Định dạng ngôn ngữ đầu ra của máy
+    speech_utterance.lang = selLang.value;
+
+    // Định dạng nội dung mà máy sẽ phát
+    speech_utterance.text = s;
+
+    // Máy tiến hành nói
+    window.speechSynthesis.speak(speech_utterance);
 }
 
-function Mute(b) {
-    if (b) {
+
+// Nút tắt âm
+function Mute(b)
+{
+    if (b) 
+    {
         selVoices.style.display = "none";
-    } else {
+    } 
+    else
+    {
         selVoices.style.display = "";
     }
 }
 
+
+// Hàm chuyển  âm thanh đầu vào thành văn bản
 function SpeechToText() {
-
-    if (oSpeechRecognizer) {
-
-        if (chkSpeak.checked) {
-            oSpeechRecognizer.start();
-        } else {
-            oSpeechRecognizer.stop();
+    // Nếu trình nhận dạng giọng nói đang được bật
+    if (speech_recognizer) {
+        // Ghi âm nếu nút microphone đang bật, và ngừng ghi âm nếu nút được tắt đi
+        if (chkSpeak.checked) 
+        {
+            speech_recognizer.start();
+        } 
+        else
+        {
+            speech_recognizer.stop();
         }
-
         return;
     }    
 
-    oSpeechRecognizer = new webkitSpeechRecognition();
-    oSpeechRecognizer.continuous = true;
-    oSpeechRecognizer.interimResults = true;
-    oSpeechRecognizer.lang = selLang.value;
-    oSpeechRecognizer.start();
 
-    oSpeechRecognizer.onresult = function (event) {
-        var interimTranscripts = "";
-        for (var i = event.resultIndex; i < event.results.length; i++) {
-            var transcript = event.results[i][0].transcript;
+    // Khởi tạo một đối tượng thuộc về API nhận dạng giọng nói của trình duyệt 
+    speech_recognizer = new webkitSpeechRecognition();
+    speech_recognizer.continuous = true; // Nhận dạng cho đến khi dừng thì thôi
+    speech_recognizer.interimResults = true; // Nhận dạng ngay khi người dùng đang nói
+    speech_recognizer.lang = selLang.value; // Ngôn ngữ đầu vào
+    speech_recognizer.start(); // Bắt đầu nhận dạng
 
-            if (event.results[i].isFinal) {
+
+    // Định nghĩa hành vi khi sinh ra kết quả
+    speech_recognizer.onresult = function (event) {
+        var interimTranscripts = ""; // Biến tạm lưu văn bản đầu ra
+        for (var i = event.resultIndex; i < event.results.length; i++) // Duyệt từ đầu đến cuối của mảng kết quả
+        {
+            var transcript = event.results[i][0].transcript; // Lấy kết quả tối ưu nhất
+
+            if (event.results[i].isFinal) // Nếu đã duyệt hết
+            {
+                // Truyền toàn bộ kết quả nhận diện vào txtMsg
                 txtMsg.value = transcript;
+                // Truyền thông điệp vào yêu cầu để gửi lên API của OpenAI
                 Send();
-            } else {
+            } 
+            else // Chưa duyệt hết
+            {
+                // Định dạng xuống dòng để hiển thị xuống dòng trong html
                 transcript.replace("\n", "<br>");
+                // Chồng kết quả lên nhau 
                 interimTranscripts += transcript;
             }
 
+
+            // Kết quả tạm thời của thông điệp thu âm được nhận dạng
             var oDiv = document.getElementById("idText");
             oDiv.innerHTML = '<span style="color: #999;">' + interimTranscripts + '</span>';
         }
     };
 
-    oSpeechRecognizer.onerror = function (event) {
+    // Nếu có lỗi xảy ra, không làm gì cả
+    speech_recognizer.onerror = function (event) {
 
     };
 }

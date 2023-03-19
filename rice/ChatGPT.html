@@ -5,7 +5,7 @@
     <script src="ChatGPT.js?v=14"></script>
 </head>
 <body onload="OnLoad()">
-
+    <img src="..\images\HCMUS.png" width="100" height="100">
     <div id="idContainer">
         <textarea id="txtOutput" rows="10" style="margin-top: 10px; width: 100%;" placeholder="Output"></textarea>
 
@@ -14,11 +14,6 @@
             <label id="lblSpeak"><input id="chkSpeak" type="checkbox" onclick="SpeechToText()" />Listen</label>
             <label id="lblMute"><input id="chkMute" type="checkbox" onclick="Mute(this.checked)"/>Mute</label>
 
-            <select id="selModel">
-                <option value="text-davinci-003">text-davinci-003</option>
-                <option value="text-davinci-002">text-davinci-002</option>
-                <option value="code-davinci-002">code-davinci-002</option>
-            </select>
 
             <select id="selLang" onchange="ChangeLang(this)">
                 <option value="en-US">English (United States)</option>
@@ -30,6 +25,9 @@
                 <option value="it-IT">Italian (Italy)</option>
                 <option value="pl-PL">Polish (Poland)</option>
                 <option value="nl-NL">Dutch (Netherlands)</option>
+                <option value="vi-VN">Vietnamese (Vietnam)</option>
+                <option value="zh-CN">Chinese (Mainland)</option>
+                <option value="km-KHM">Khmer (Cambodia) </option>
             </select>
 
             <select id="selVoices"></select>
@@ -39,6 +37,5 @@
 
         <div id="idText"></div>
     </div>
-
 </body>
 </html>
