@@ -5,21 +5,21 @@ var speech_recognizer = null
 var speech_utterance = null;
 var voice_input = null;
 
-// ???c g?i ngay khi trang web ???c t?i 
+// Được gọi ngay khi trang được load
 function OnLoad() {
-    // Ki?m tra tr�nh duy?t c� h? tr? nh?n d?ng gi?ng n�i kh�ng
+    // Kiểm tra trình duyệt có hỗ trợ giọng nói không
     if ("webkitSpeechRecognition" in window) {
     }
     else {
-        //speech to text not supported
+        // Truyền thông tin rằng giọng nói không được hỗ trợ
         lblSpeak.style.display = "none";
     }
 
-    // Ki?m tra tr�nh duy?t c� h? tr? chuy?n ??i v?n b?n th�nh gi?ng n�i kh�ng
+    // Kiểm tra trình duyệt có hỗ trợ chuyển đổi văn bản thành giọng nói hay không 
     if ('speechSynthesis' in window) {
         text_to_speech_is_supported = true;
         speechSynthesis.onvoiceschanged = function () {
-            // Thay ??i gi?ng n�i theo t�y ch?nh c?a ng??i d�ng
+            // Thay đổi giọng nói theo tùy chỉnh của người dùng
             voice_input = window.speechSynthesis.getVoices();
             for (var i = 0; i < voice_input.length; i++) {
                 selVoices[selVoices.length] = new Option(voice_input[i].name, i);
@@ -28,7 +28,7 @@ function OnLoad() {
     }
 }
 
-// Thay ??i ng�n ng? c?a �m thanh ??u v�o
+// Thay đổi ngôn ngữ của âm thanh đầu vào
 function ChangeLang(o) {
     if (speech_recognizer) {
         speech_recognizer.lang = selLang.value;
@@ -37,20 +37,20 @@ function ChangeLang(o) {
 }
 
 
-// Bi?n l?u l?ch s? ?? truy?n ti?p
+// Biến lưu lịch sử để truyền lại cho bot sau mỗi lần gọi API
 const conversation_history = []
 
 
-// H�m Send l� back-end
+// Hàm Send là back-end
 function Send() {
-    // str_input: input text ??n thu?n
-    // chat-input: ??i t??ng input
+    // str_input: input text đơn thuần
+    // txtMsg: đối tượng input
     var str_input = $("#chat-input").val();
 
 
-    if (str_input == "") { // B�o l?i v� tho�t kh?i ch??ng tr�nh n?u prompt r?ng
+    if (str_input == "") {  // Báo lỗi và thoát khỏi chương trình nếu prompt rỗng
         alert("Type in your question!");
-        chat-input.focus(); // ??t con tr? so?n th?o v�o h?p nh?p
+        chat-input.focus(); // Đặt con trỏ soạn thảo vào hộp nhập
         return;
     }
 
@@ -73,69 +73,71 @@ function Send() {
     //Append prompt text to history
     $("#list-group").append(html_data);
 
-    // G?i y�u c?u d? li?u ??n m�y ch?
+    // Gửi yêu cầu dữ liệu đến máy chủ
     var oHttp = new XMLHttpRequest();
 
-    oHttp.open("POST", "https://api.openai.com/v1/chat/completions"); // M�y ch? ?? g?i y�u c?u POST
+    oHttp.open("POST", "https://api.openai.com/v1/chat/completions"); // Máy chủ để gửi yêu cầu POST
 
     // Header c?a y�u c?u
     oHttp.setRequestHeader("Accept", "application/json"); // Y�u c?u ??u v�o ch? ch?p nh?n m�i tr??ng javascrpt
     oHttp.setRequestHeader("Content-Type", "application/json"); // K?t qu? ??u v�o tu�n theo  c� ph�p javascript
     oHttp.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY) // X�c th?c truy c?p, s? d?ng API c?a OpenAI
 
-    conversation_history[conversation_history.length] = { "role": "user", "content": str_input };
-    // D? li?u trong y�u c?u ???c g?i l�n m�y ch?
+    conversation_history[conversation_history.length] = {"role": "user", "content": str_input};
+    // Dữ liệu trong yêu cầu được gửi lên máy chủ
     var data = {
-        "model": "gpt-3.5-turbo", // Model GPT-3.5-turbo, model hi?n h�nh c?a ChatGPT
-        "messages": conversation_history, // Th�ng ?i?p ?? g?i API ph?n h?i
+        "model": "gpt-3.5-turbo", // Model GPT-3.5-turbo, model hiện hành của ChatGPT
+        "messages": conversation_history, // Thông điệp để gọi API phản hồi
     }
 
-    // Truy?n th�ng ?i?p c?a ng??i d�ng v�o stream xu?t
+    // Truyền thông điệp của người dùng vào stream xuất 
     txtOutput = '';
     txtOutput += "User: " + str_input + "\n"
 
 
 
-    // ??nh ngh?a h�nh vi x?y ra n?u tr?ng th�i c?a bi?n oHttp thay ??i (??ng ngh?a v?i vi?c ?� nh?n d? li?u t? m�y ch?)
-    // (ch?a bi?t l� d? li?u ?�ng hay kh�ng)
+    // Định nghĩa hành vi xảy ra nếu trạng thái của biến oHttp thay đổi (đồng nghĩa với việc đã nhận dữ liệu từ máy chủ)
+    // (chưa biết là dữ liệu đúng hay không)
 
-    // Th?c thi kh?i l?nh sau khi tr?ng th�i oHttp thay ??i:
+    // Thực thi khối lệnh sau khi trạng thái oHttp thay đổi:
     oHttp.onreadystatechange = function () {
 
-        // XMLHttpRequest.readyState cho bi?t tr?ng th�i  y�u c?u ?� g?i t? m�y kh�ch.
-        // Gi� tr? 0 (ch?a ti?n h�nh) -> 4 (?� ho�n th�nh) bi?u th? m?c ?? ho�n th�nh c?a y�u c?u. 
+        // XMLHttpRequest.readyState cho biết trạng thái  yêu cầu đã gửi từ máy khách.
+        // Giá trị 0 (chưa tiến hành) -> 4 (đã hoàn thành) biểu thị mức độ hoàn thành của yêu cầu. 
         if (oHttp.readyState === 4) {
-            var oJson = {} // oJson l?u d? li?u ???c m�y ch? g?i v?
+            var oJson = {} // oJson lưu dữ liệu được máy chủ gửi về
 
-            // N?u stream output r?ng, th�m k� t? xu?ng d�ng v�o stream.
+            // Nếu stream output có chứa dữ liệu, thêm ký tự xuống dòng vào stream.
             if (txtOutput != "") txtOutput += "\n";
 
-            // Test d�ng l?nh sau v� tr? v? th�ng b�o l?i (n?u c�)
+            // Test dòng lệnh sau và trả về thông báo lỗi (nếu có)
             try {
-                // L?u oHttp.responseText (d? li?u ???c m�y ch? tr? v?) v�o bi?n oJson
+                // Lưu oHttp.responseText (dữ liệu được máy chủ trả về) vào biến oJson
                 oJson = JSON.parse(oHttp.responseText);
             }
-            catch (ex) // N?u qu� tr�nh parse kh�ng th�nh c�ng: 
+            catch (ex) // Nếu quá trình parse không thành công: 
             {
-                // Bi?n ex t?m th?i l?u th�ng b�o l?i
-                txtOutput += "Error: " + ex.message + "\n" // L?u th�ng b�o l?i v�o stream output.
+                // Biến ex tạm thời lưu thông báo lỗi
+                txtOutput += "Error: " + ex.message + "\n" // Lưu thông báo lỗi vào stream output.
             }
 
-            if (oJson.error && oJson.error.message) // N?u c� l?i x?y ra
+            if (oJson.error && oJson.error.message) // Nếu có lỗi xảy ra
             {
-                txtOutput += "Error: " + oJson.error.message + "\n"; // L?u th�ng ?i?p l?i v�o k?t qu? ??u ra
+                txtOutput += "Error: " + oJson.error.message + "\n"; // Lưu thông điệp lỗi vào kết quả đầu ra
             }
-            else  // Kh�ng c� l?i, qu� tr�nh parse th�nh c�ng
+            else // Không có lỗi, quá trình parse thành công
                 if (oJson.choices && oJson.choices[0].message.content) {
-                    // s l?u k?t qu? d??i d?ng v?n b?n th� 
+                    // s lưu kết quả dưới dạng văn bản thô 
                     var s = oJson.choices[0].message.content
 
-                    // N?u k?t qu? v?n b?n l� r?ng, th�ng b�o
+                    // Nếu kết quả văn bản là rỗng, thông báo "no response"
                     if (s == "")
                         s = "No response";
 
-                    // Truy?n k?t qu? v?n b?n v�o stream ??u ra
+                    // Truyền kết quả văn bản vào stream đầu ra
                     txtOutput += "Chat GPT: " + s + '\n';
+
+                    // Format ký tự xuống dòng html
                     s = s.replace(/\n/g, "<br>");
                     let gpt_data = '';
                     gpt_data += `
@@ -150,9 +152,9 @@ function Send() {
                     `;
                     $("#list-group").append(gpt_data);
 
-                    // L?u k?t qu? v�o l?ch s?
+                    // Lưu kết quả vào lịch sử
                     conversation_history[conversation_history.length] = { "role": "assistant", "content": s };
-                    // N�i
+                    // Nói
                     TextToSpeech(s);
                 }
         }
