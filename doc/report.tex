@@ -46,32 +46,28 @@
 		\Huge \textbf{BÁO CÁO SEMINAR}\\ 
 		\vspace{0.1cm}
 		\vspace{0.1cm}
-		\Huge \textbf{Cách cài đặt chat bot trên ứng dụng web từ API key của ChatGPT} \\
+		\Huge \textbf{Cách cài đặt chat bot trên ứng dụng web sử dụng API key của OpenAI} \\
 		\begin{center}
 			\line(1,0){450}
 		\end{center}
 		
 		\vspace{0,2cm}
-		\huge \textbf{Môn: Mạng Máy Tính}\\
+		\huge \textbf{Môn học: Mạng Máy Tính}\\
 		\Large{\textbf{Giảng viên: Th.S Đỗ Hoàng Cường}}
 		\Large
 		% AUTHOR
 		\vspace{1cm}
-		\begin{multicols}{2}
-			\begin{flushright}
-			\textbf{Họ và tên}\\
-			Nguyễn Quốc Trung\\
-			Trần Trọng Nghĩa\\
-			Trần Kỳ Thanh\\
-			\end{flushright}
-			\columnbreak
-			\begin{flushleft}
-			\textbf{MSSV}\\
-			21120350\\
-			21120507\\
-			21120556\\
-			\end{flushleft}
-		\end{multicols}
+		% Please add the following required packages to your document preamble:
+		% \usepackage{booktabs}
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{@{}lll@{}}
+				& \textbf{Họ và tên}         & \textbf{MSSV} \\
+				& Nguyễn Quốc Trung & 21120350 \\
+				& Trần Kỳ Thanh     & 21120556 \\
+				& Trần Trọng Nghĩa  & 21120507 \\ 
+			\end{tabular}
+		\end{table}
 
 		
 		% DATE
@@ -82,16 +78,19 @@
 
 	\section{Giới thiệu}
 		\subsection{ChatGPT}
-			Chat bot là một chương trình phần mềm được thiết kế để mô phỏng cuộc trò chuyện với con người, thường là qua Internet, cung cấp hỗ trợ trong nhiều công việc khác nhau như bán hàng, quảng bá sản phẩm, hỗ trợ khách hàng, giới thiệu nội dung...
+			Chat bot là một chương trình phần mềm được thiết kế để giao tiếp với con người thông qua hội thoại bằng văn bản, hỗ trợ con người trong nhiều công việc khác nhau như bán hàng, quảng bá sản phẩm, hỗ trợ khách hàng, giới thiệu nội dung...
 			\\
 			\\
-			ChatGPT là một mô hình máy học (machine learning) được phát triển bởi OpenAI, một tổ chức nghiên cứu trí tuệ nhân tạo được thành lập vào năm 2015. ChatGPT gây chú ý bởi khả năng sinh ra văn bản tự nhiên với độ chính xác cao, dưới nhiều hình thức nội dung khác nhau (giải thích kiến thức, soạn e-mail, viết CV...) theo yêu cầu của người dùng cuối. GPT là từ viết tắt tiếng Anh của Generative Pre-trained Transformer - một mạng lưới thần kinh AI được huấn luyện trước trên một lượng dữ liệu văn bản khổng lồ được cung cấp từ nhiều nguồn đa dạng về nội dung, chủ đề, ngôn ngữ và cấu trúc nhằm sinh ra các câu trả lời tự nhiên, giống với ngôn ngữ của con người nhất có thể.
+			ChatGPT là một mô hình máy học (machine learning) được phát triển bởi OpenAI, một tổ chức nghiên cứu trí tuệ nhân tạo được thành lập vào năm 2015. ChatGPT gây chú ý bởi khả năng sinh ra văn bản tự nhiên với độ chính xác cao, dưới nhiều hình thức nội dung khác nhau (giải thích kiến thức, soạn e-mail, viết CV...) theo yêu cầu của người dùng cuối. 
 			\\
 			\\
-			Nền tảng cơ bản của ChatGPT là mạng thần kinh (neural network) - một mô hình học sâu bao gồm các neuron nhân tạo (được gọi là nút) tổ chức thành nhiều lớp (mỗi lớp gồm nhiều nút), được liên kết với nhau. Trong mạng thần kinh, thông tin được truyền đi thông qua mạng lưới kết nối phức tạp giữa các lớp và quá trình tính toán cụ thể được thực thi tại từng nút. Khi quá trình nhận dữ liệu và phản hồi được lặp đi lặp lại nhiều lần qua các lớp, mạng thần kinh dần xuất hiện khả năng nhận dạng các mẫu và dấu hiệu trong dữ liệu đầu vào, từ đó "học" được kiến thức mà người phát triển mong muốn, giúp đưa ra kết quả chính xác và đáp ứng được yêu cầu công việc.
+			GPT là từ viết tắt tiếng Anh của Generative Pre-trained Transformer - một mạng lưới thần kinh AI được huấn luyện với lượng khổng lồ dữ liệu văn bản lấy từ các nguồn đa dạng về nội dung, chủ đề, ngôn ngữ và cấu trúc nhằm giúp mô hình có thể trả về các phản hồi tự nhiên, giống với ngôn ngữ của con người nhất có thể thông qua cơ chế học sâu.
 			\\
 			\\
-			Với 175 tỷ tham số trong mô hình, khối lượng dữ liệu training khổng lồ, ChatGPT trở thành một công cu tiên phong trong công việc xử lý ngôn ngữ tự nhiên và có ảnh hưởng to lớn đến khắp các lĩnh  vực, từ thị trường công nghệ, việc làm, đến giáo dục và đào tạo...
+			Nền tảng của ChatGPT là mô hình mạng thần kinh (neural network) - một mô hình học sâu được cấu thành từ các neuron nhân tạo (được gọi là nút) tổ chức thành nhiều lớp (mỗi lớp gồm nhiều nút), được liên kết chặt chẽ với nhau. Trong mạng thần kinh, thông tin được truyền đi thông qua mạng lưới kết nối phức tạp giữa các lớp, còn quá trình tính toán cụ thể được thực thi tại từng nút. Nhờ cơ chế này, mô hình dần có được khả năng nhận dạng các mẫu và dấu hiệu lặp đi lặp lại trong dữ liệu đầu vào, từ đó "học" được kiến thức mà người phát triển mong muốn, giúp đưa ra kết quả chính xác và đáp ứng được yêu cầu công việc.
+			\\
+			\\
+			Với 175 tỷ tham số trong mô hình, khối lượng dữ liệu training khổng lồ, ChatGPT đã trở thành một công cụ tiên phong trong công việc xử lý ngôn ngữ tự nhiên và có ảnh hưởng to lớn đến khắp các lĩnh  vực, từ thị trường công nghệ, việc làm, đến giáo dục và đào tạo...
 			
 		
 		\subsection{Những tính năng nổi bật của ChatGPT}
@@ -180,24 +179,19 @@
 	\end{itemize}
 	
 	\section{Cài đặt chat bot}
-	Để quá trình cài đặt được đơn giản và nhanh chóng, chúng tôi sử dụng ngôn ngữ lập trình Python để xây dựng chat bot trên nền tảng ứng dụng web local.
-	\subsection{Các thư viện được sử dụng}
-		\subsubsection{openai}
-		Openai là một gói thư viện (package) được viết cho ngôn ngữ lập trình Python, chỉ hỗ trợ các phiên bản Python từ 3.7.1 trở đi. Thư viện này gồm có các hàm, phương thức và lớp đối tượng được xây dựng sẵn để tương tác với các API của OpenAI như GPT-3, DALL-E và Codex, cũng như các công cụ để xác thực truy cập, định dạng đầu ra/vào và xử lý lỗi.
-		\\
-		\\
-		Trong thư viện này, phương thức gọi được sử dụng là \texttt{openai.ChatCompletion.create()}.\\
-		\subsubsection{gradio}
-		Thư viện gradio hỗ trợ xây dựng các ứng dụng tương tác cơ bản trên nền tảng web để vận dụng và chia sẻ các mô hình  máy học, API và luồng công việc khoa học dữ liệu một cách tiện lợi, nhanh chóng và dễ dàng.
+	Chat bot của chúng tôi được xây dựng trên nền tảng ứng dụng web (sử dụng javascript), và có tham khảo các tài liệu hướng dẫn cũng như một số dự án mã nguồn mở khác có liên quan.
+	\subsection{Back-end}
+	Back-end của chúng tôi được cài đặt bằng ngôn ngữ javascript, với nhiệm vụ quan trọng nhất là thực hiện gửi yêu cầu HTTP lên điểm cuối của OpenAI và nhận về dữ liệu phản hồi ứng với dữ liệu đã truyền vào. Từ đó, câu trả lời ứng với nội dung nhập của người dùng được tách ra và xuất trên giao diện ứng dụng.
+	\\
+	\\
+	Tổng quan, trình tự hoạt động của back-end khi thực hiện yêu cầu HTTP như sau:
+	\begin{itemize}
+		\item[1.] 
+	\end{itemize}
 	
 	
 	\subsection{Cấu trúc mã nguồn}
-	Mã nguồn của ứng dụng demo này được đặt trong một môi trường Python ảo với các thư viện cần thiết được cài đặt sẵn và script để kích hoạt.
-	\\
-	\\
-	Khi chạy mã nguồn, cửa sổ terminal sẽ cung cấp đường dẫn đến trang web demo tương ứng trên server .
-	\\
-	\\
+	
 	Tổng quan, mã nguồn cài đặt các công việc chính:
 	\begin{itemize}
 		\item[1.] Khai báo các thư viện sử dụng
