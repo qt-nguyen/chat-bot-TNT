@@ -186,13 +186,24 @@
 	\\
 	Tổng quan, trình tự hoạt động của back-end khi thực hiện yêu cầu HTTP như sau:
 	\begin{itemize}
-		\item[1.] Tạo đối tượng  định dạng yêu cầu
+		\item[1.] Nhận dữ liệu văn bản từ người dùng (có thể nhập từ bàn phím hoặc từ giọng nói nhờ trình chuyển đổi).
+		\item[2.] Tạo đối tượng gửi yêu cầu HTTP endpoint https://api.openai.com/v1/chat/completions.
+		\item[3.] Truyền vào đối tượng HTTP nội dung cần gửi, bao gồm định dạng môi trường truyền và nhận, xác thực truy cập bằng API key, dữ liệu gửi kèm. Dữ liệu gửi kèm chứa dữ liệu văn bản được người dùng nhập vào.
+		\item[4.] Nhận kết quả phản hồi, kiểm tra lỗi.
+		\item[5.] Tách dữ liệu đầu ra để đưa sang front-end xử lý.
 	\end{itemize}
+	Ngoài ra, back-end còn có các hàm và phương thức sử dụng API nhận diện và xử lý giọng nói có sẵn của trình duyệt web.
 	
 	
 	\subsection{Cấu trúc mã nguồn}
+	Mã nguồn gồm hai file: 
+	\begin{itemize}
+		\item File "index.html" đóng vai trò như front-end thiết lập giao diện của ứng dụng.
+		\item File "script.js" đóng vai trò như back-end định nghĩa và cài đặt các hàm, phương thức cần thức để xử lý yêu cầu người dùng, gửi đi yêu cầu lên endpoint của OpenAI, nhận dữ liệu phản hồi và xử lý kết quả để xuất ra giao diện chính.
+		
+	\end{itemize}
 	
-	
+
 	\subsection{Nhận xét}
 	\textbf{Chức năng}\\
 	\begin{itemize}
@@ -200,6 +211,7 @@
 		\item Kết quả được trình bày thành trên đoạn, nhiều dòng.
 		\item Định dạng riêng cho code.
 		\item Có thể nhớ lịch sử hội thoại để tiếp tục nhận phản hồi, tiếp tục chủ đề được đề cập đến mà không bị ngắt quãng.
+		\item Có chức năng nhập liệu bằng giọng nói cũng như đọc kết quả đầu ra, sử dụng API có sẵn của trình duyệt web.
 	\end{itemize}
 	\vspace{1,5cm}
 	\textbf{Khuyết điểm}\\
@@ -207,6 +219,7 @@
 		\item Thỉnh thoáng sẽ xuất hiện lỗi ngữ pháp, câu cú.
 		\item Chỉ có duy nhất một khung chat.
 		\item Không thể hủy quá trình sinh câu trả lời giữa chừng.
+		\item Trong chức năng nhận diện và xuất giọng nói, ngôn ngữ đầu vào và đầu ra phải được người dùng quy định bằng hộp thoại với các tùy chọn ngôn ngữ được cung cấp sẵn.
 	\end{itemize}
 		
 	\section{Tham khảo}
@@ -227,7 +240,9 @@
 		
 		\item[{[6]}] Hamilton, A.C. (2022) \textit{How to Create an  Advanced Chatbot: A Comprehensive Guide to Using Open AI's Chat GPT}. Digital Age Media.
 		
+		\item[{[7]}] Krupitsky, I. (2022) \textit{Chat GPT in JavaScript, CodeProject}. CodeProject. Truy cập ngày 14 tháng 3 năm 2023.\\ https://www.codeproject.com/Articles/5350454/Chat-GPT-in-JavaScript 
 		
+		\item[{[8]}] Skolo-Online (2023) Chat-gpt-starter/index.html at main · Skolo-Online/Chat-GPT-starter, GitHub. Truy cập 15 tháng 3 năm 2023.\\ https://github.com/skolo-online/chat-gpt-starter/blob/main/templates/index.html 
 			
 	\end{itemize}
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.25)  20 MAR 2023 15:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.25)  20 MAR 2023 17:06
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -975,47 +975,52 @@ Overfull \hbox (29.37466pt too wide) in paragraph at lines 174--177
  []
 
 [5 <./4.png> <./4.5.png>]
-LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 1
-98.
- (C:\Program Files\MiKTeX\tex/latex/vntex\t5cmtt.fd
-File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-Underfull \hbox (badness 10000) in paragraph at lines 205--206
+Underfull \hbox (badness 10000) in paragraph at lines 184--188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--214
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
 
  []
 
-[6] [7] (report.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
+
+ []
+
+[6]
+Overfull \hbox (10.71414pt too wide) in paragraph at lines 245--246
+[]\T5/cmr/m/n/12 Skolo-Online (2023) Chat-gpt-starter/index.html at main \TS1/c
+mr/m/n/12 · \T5/cmr/m/n/12 Skolo-Online/Chat-GPT-starter,
+ []
+
+[7] (report.aux)
 Package logreq Info: Writing requests to 'report.run.xml'.
 \openout1 = `report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 14677 strings out of 475385
- 263712 string characters out of 2786721
+ 14658 strings out of 475385
+ 263407 string characters out of 2786721
  1026001 words of memory out of 3000000
- 35893 multiletter control sequences out of 15000+600000
- 484378 words of font info for 54 fonts, out of 8000000 for 9000
+ 35878 multiletter control sequences out of 15000+600000
+ 484067 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  67i,9n,77p,870b,391s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi600\vnti12
-.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi600\vntt
-12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-tcrm1200.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi
-720\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/d
-pi600\vnr12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/
-dpi600\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vn
-r/dpi864\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/
-vnr/dpi1244\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vnt
-ex/vnr/dpi864\vncsc10.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/
-vntex/vnr/dpi1037\vncsc10.pk>
-Output written on report.pdf (8 pages, 877086 bytes).
+.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tc
+rm1200.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi72
+0\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dpi
+600\vnr12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/dp
+i600\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vnr/
+dpi864\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex/vn
+r/dpi1244\vnbx12.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vntex
+/vnr/dpi864\vncsc10.pk> <C:\Users\Admin\AppData\Local\MiKTeX\fonts/pk/ljfour/vn
+tex/vnr/dpi1037\vncsc10.pk>
+Output written on report.pdf (8 pages, 868493 bytes).
 PDF statistics:
- 499 PDF objects out of 1000 (max. 8388607)
+ 471 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
