@@ -1,4 +1,4 @@
-var OPENAI_API_KEY = "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";
+var OPENAI_API_KEY = "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";
 var text_to_speech_is_supported = false;
 var speech_is_in_progress = false;
 var speech_recognizer = null
@@ -62,7 +62,7 @@ function Send() {
             <a href = "#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
                  <div class="d-flex gap-2 w-100 justify-content-end">
                      <div>
-                         <p class="mb-0 opacity-75">${str_input}</p>
+                         <p class="mb-1 opacity-70">${str_input}</p>
                      </div>
                      <img src="images/HCMUS.png" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
                  </div>
@@ -132,20 +132,25 @@ function Send() {
 
                     // Nếu kết quả văn bản là rỗng, thông báo "no response"
                     if (s == "")
-                        s = "No response";
+                        s = "No responses";
 
                     // Truyền kết quả văn bản vào stream đầu ra
                     txtOutput += "Chat GPT: " + s + '\n';
 
                     // Format ký tự xuống dòng html
                     s = s.replace(/\n/g, "<br>");
+                    while ( s.includes("```")) {
+                         // Wrap code block in <pre> tags 
+                        s = s.replace("```", "<pre>", 1);
+                        s = s.replace("```", "</pre>", 1);
+                    }
                     let gpt_data = '';
                     gpt_data += `
                     <a href = "#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
-                        <img src = "images/openai.jpg" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
+                        <img src = "../images/openai.jpg" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">        
                         <div class="d-flex gap-2 w-100 justify-content-start">
                             <div style="text-align: left;">
-                             <span class="mb-0 opacity-75"> ${s} </span>
+                             <span class="mb-1 opacity-90"> ${s} </span>
                             </div>
                         </div>
                     </a>
