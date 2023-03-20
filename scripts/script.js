@@ -1,4 +1,4 @@
-var OPENAI_API_KEY = "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";
+var OPENAI_API_KEY = "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";
 var text_to_speech_is_supported = false;
 var speech_is_in_progress = false;
 var speech_recognizer = null
@@ -178,7 +178,7 @@ function Send() {
 
 
     // Dọn dẹp prompt đầu vào
-    $("#chat-input").val() = "";
+    $("#chat-input").val("");
 }
 
 
