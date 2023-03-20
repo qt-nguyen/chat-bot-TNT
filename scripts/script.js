@@ -44,7 +44,7 @@ const conversation_history = []
 // Hàm Send là back-end
 function Send() {
     // str_input: input text đơn thuần
-    // txtMsg: đối tượng input
+    // chat-input: đối tượng input
     var str_input = $("#chat-input").val();
 
 
@@ -282,8 +282,8 @@ function SpeechToText() {
 
             if (event.results[i].isFinal) // Nếu đã duyệt hết
             {
-                // Truyền toàn bộ kết quả nhận diện vào txtMsg
-                txtMsg.value = transcript;
+                // Truyền toàn bộ kết quả nhận diện vào chat-input
+                $("#chat-input").val(transcript);
                 // Truyền thông điệp vào yêu cầu để gửi lên API của OpenAI
                 Send();
             } 
