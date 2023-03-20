@@ -1,4 +1,4 @@
-var OPENAI_API_KEY = "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";
+var OPENAI_API_KEY = "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";
 var text_to_speech_is_supported = false;
 var speech_is_in_progress = false;
 var speech_recognizer = null
@@ -64,7 +64,7 @@ function Send() {
                      <div>
                          <p class="mb-1 opacity-70">${str_input}</p>
                      </div>
-                     <img src="images/HCMUS.png" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
+                     <img src="../images/Seal.png" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">
                  </div>
               </a>
             `;
@@ -78,10 +78,10 @@ function Send() {
 
     oHttp.open("POST", "https://api.openai.com/v1/chat/completions"); // Máy chủ để gửi yêu cầu POST
 
-    // Header c?a y�u c?u
-    oHttp.setRequestHeader("Accept", "application/json"); // Y�u c?u ??u v�o ch? ch?p nh?n m�i tr??ng javascrpt
-    oHttp.setRequestHeader("Content-Type", "application/json"); // K?t qu? ??u v�o tu�n theo  c� ph�p javascript
-    oHttp.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY) // X�c th?c truy c?p, s? d?ng API c?a OpenAI
+    // Header của yêu cầu
+    oHttp.setRequestHeader("Accept", "application/json"); // Yêu cầu đầu vào cho chấpp nhận môi trường javascrpt
+    oHttp.setRequestHeader("Content-Type", "application/json"); // Kết quả đầu vào tuân theo  cú phápp javascript
+    oHttp.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY) // Xác thực truy cập, sử dụng API của OpenAI
 
     conversation_history[conversation_history.length] = {"role": "user", "content": str_input};
     // Dữ liệu trong yêu cầu được gửi lên máy chủ
@@ -137,12 +137,14 @@ function Send() {
                     // Truyền kết quả văn bản vào stream đầu ra
                     txtOutput += "Chat GPT: " + s + '\n';
 
+                    var tmp = s
+
                     // Format ký tự xuống dòng html
-                    s = s.replace(/\n/g, "<br>");
-                    while ( s.includes("```")) {
-                         // Wrap code block in <pre> tags 
-                        s = s.replace("```", "<pre>", 1);
-                        s = s.replace("```", "</pre>", 1);
+                    tmp = tmp.replace(/\n/g, "<br>");
+                    while ( tmp.includes("```")) {
+                        // Wrap code block in <pre> tags 
+                        tmp = tmp.replace("```", "<pre>", 1);
+                        tmp = tmp.replace("```", "</pre>", 1);
                     }
                     let gpt_data = '';
                     gpt_data += `
@@ -150,7 +152,7 @@ function Send() {
                         <img src = "../images/openai.jpg" alt = "twbs" width = "32" height = "32" class="rounded-circle flex-shrink-0">        
                         <div class="d-flex gap-2 w-100 justify-content-start">
                             <div style="text-align: left;">
-                             <span class="mb-1 opacity-90"> ${s} </span>
+                             <span class="mb-1 opacity-90"> ${tmp} </span>
                             </div>
                         </div>
                     </a>
