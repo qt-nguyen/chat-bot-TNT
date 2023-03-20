@@ -1,4 +1,4 @@
-var OPENAI_API_KEY = "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";
+var OPENAI_API_KEY = "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";
 var text_to_speech_is_supported = false;
 var speech_is_in_progress = false;
 var speech_recognizer = null
@@ -137,7 +137,7 @@ function Send() {
                     // Truyền kết quả văn bản vào stream đầu ra
                     txtOutput += "Chat GPT: " + s + '\n';
 
-                    var tmp = s
+                    var tmp = s;
 
                     // Format ký tự xuống dòng html
                     tmp = tmp.replace(/\n/g, "<br>");
