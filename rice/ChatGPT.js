@@ -140,7 +140,7 @@ function Send() {
 
     
     
-    // D?n d?p prompt ??u v�o
+    // Dọn dẹp prompt đầu vào
     txtMsg.value = ""; 
 }
 
