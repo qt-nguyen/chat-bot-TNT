@@ -186,23 +186,13 @@
 	\\
 	Tổng quan, trình tự hoạt động của back-end khi thực hiện yêu cầu HTTP như sau:
 	\begin{itemize}
-		\item[1.] Tạo đối tượng lưu giữ yêu cauafw 
+		\item[1.] Tạo đối chứa định dạng yêu cầu
 	\end{itemize}
 	
 	
 	\subsection{Cấu trúc mã nguồn}
 	
-	Tổng quan, mã nguồn cài đặt các công việc chính:
-	\begin{itemize}
-		\item[1.] Khai báo các thư viện sử dụng
-		\item[2.] Xác thực API key bằng Key đã được tạo trong đề mục 2.
-		
-		\item[3.] Thêm dữ liệu đầu vào: Hàm \texttt{add\_request(history, request)} nhận yêu cầu mới của người dùng dưới dạng chuỗi văn bản và chèn yêu cầu này vào cuối biến danh sách \texttt{history} với định dạng mà hàm sinh kết quả hiểu được. 
-		\item[4.] Thêm dữ liệu đầu ra: Hàm \texttt{add\_response(history, request)} nhận câu trả lời của AI dưới dạng chuỗi văn bản và  chèn chúng vào cuối biến danh sách \texttt{history} với định dạng mà hàm sinh kết quả  hiểu được. 
-		\item[5.] \begin{sloppypar}Hàm sinh kết quả \texttt{generate\_response} nhận vào danh sách lịch sử  hội thoại và nội dung người dùng nhập vào, cập nhật lịch sử hội thoại rồi sau đó gọi hàm \texttt{openai.ChatCompletion.create()} để tạo câu trả lời. Hàm này duyệt qua toàn bộ lịch sử hội thoại được lưu trong \texttt{history} rồi tạo ra câu trả lời cho yêu cầu cuối cùng trong lịch sử hội thoại được sử dụng, đồng thời có thể được tùy chỉnh theo các tham số như model (mô hình), temperature (chỉ số ngẫu nhiên của kết quả)... Kết quả sinh ra được cập nhật trong lịch sử hộp thoại để sử dụng cho lần gọi tiếp theo. \end{sloppypar}
-		\item[6.] Hàm \texttt{chat} nhận dữ liệu được nhập vào UI và dữ liệu phát sinh trong quá trình chạy ứng dụng (chính là lịch sử hội thoại), gọi các hàm đã giải thích ở trên, rồi lưu vào biến lưu trữ để ứng dụng xử lý tiếp.
-		\item[7.] Hàm tạo UI với khung nhập liệu, khung hiển thị lịch sử hội thoại. Khi kích hoạt, chúng sẽ gọi hàm \texttt{chat} với tham số là các biến lưu dữ liệu .
-	\end{itemize}
+	
 	\subsection{Nhận xét}
 	\textbf{Chức năng}\\
 	\begin{itemize}
