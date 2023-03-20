@@ -179,14 +179,14 @@
 	\end{itemize}
 	
 	\section{Cài đặt chat bot}
-	Chat bot của chúng tôi được xây dựng trên nền tảng ứng dụng web (sử dụng javascript), và có tham khảo các tài liệu hướng dẫn cũng như một số dự án mã nguồn mở khác có liên quan.
+	Chat bot của chúng tôi được xây dựng trên nền tảng ứng dụng web (sử dụng javascript), và trong quá trình thực hiện có tham khảo các tài liệu hướng dẫn cũng như một số dự án mã nguồn mở khác có liên quan.
 	\subsection{Back-end}
-	Back-end của chúng tôi được cài đặt bằng ngôn ngữ javascript, với nhiệm vụ quan trọng nhất là thực hiện gửi yêu cầu HTTP lên điểm cuối của OpenAI và nhận về dữ liệu phản hồi ứng với dữ liệu đã truyền vào. Từ đó, câu trả lời ứng với nội dung nhập của người dùng được tách ra và xuất trên giao diện ứng dụng.
+	Back-end của chúng tôi được cài đặt bằng ngôn ngữ javascript, với nhiệm vụ quan trọng nhất là thực hiện gửi yêu cầu HTTP lên endpoint của OpenAI và nhận về dữ liệu phản hồi từ máy chủ  ứng với dữ liệu đã truyền vào. Từ đó, câu trả lời ứng với nội dung nhập của người dùng được tách ra và xuất trên giao diện ứng dụng.
 	\\
 	\\
 	Tổng quan, trình tự hoạt động của back-end khi thực hiện yêu cầu HTTP như sau:
 	\begin{itemize}
-		\item[1.] Tạo đối chứa định dạng yêu cầu
+		\item[1.] Tạo đối tượng  định dạng yêu cầu
 	\end{itemize}
 	
 	
