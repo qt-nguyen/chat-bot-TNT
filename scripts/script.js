@@ -1,4 +1,4 @@
-var OPENAI_API_KEY = "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";
+var OPENAI_API_KEY = "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";
 var text_to_speech_is_supported = false;
 var speech_is_in_progress = false;
 var speech_recognizer = null
@@ -44,7 +44,7 @@ const conversation_history = []
 // Hàm Send là back-end
 function Send() {
     // str_input: input text đơn thuần
-    // chat-input: đối tượng input
+    // txtMsg: đối tượng input
     var str_input = $("#chat-input").val();
 
 
@@ -137,7 +137,7 @@ function Send() {
                     // Truyền kết quả văn bản vào stream đầu ra
                     txtOutput += "Chat GPT: " + s + '\n';
 
-                    var tmp = s;
+                    var tmp = s
 
                     // Format ký tự xuống dòng html
                     tmp = tmp.replace(/\n/g, "<br>");
@@ -178,7 +178,7 @@ function Send() {
 
 
     // Dọn dẹp prompt đầu vào
-    $("#chat-input").val("");
+    $("#chat-input").val() = "";
 }
 
 
@@ -282,7 +282,7 @@ function SpeechToText() {
 
             if (event.results[i].isFinal) // Nếu đã duyệt hết
             {
-                // Truyền toàn bộ kết quả nhận diện vào chat-input
+                // Truyền toàn bộ kết quả nhận diện vào txtMsg
                 $("#chat-input").val(transcript);
                 // Truyền thông điệp vào yêu cầu để gửi lên API của OpenAI
                 Send();
